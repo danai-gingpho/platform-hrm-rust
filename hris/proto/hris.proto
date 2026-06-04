@@ -1,0 +1,571 @@
+syntax = "proto3";
+
+package hris;
+
+service CompanyService {
+  rpc GetCompany (GetCompanyRequest) returns (CompanyResponse);
+  rpc CreateCompany (CreateCompanyRequest) returns (CompanyResponse);
+}
+
+service EmployeeService {
+  rpc GetEmployee (GetEmployeeRequest) returns (EmployeeResponse);
+  rpc CreateEmployee (CreateEmployeeRequest) returns (EmployeeResponse);
+}
+
+service DepartmentService {
+  rpc GetDepartment (GetDepartmentRequest) returns (DepartmentResponse);
+  rpc CreateDepartment (CreateDepartmentRequest) returns (DepartmentResponse);
+}
+
+service BranchService {
+  rpc GetBranch (GetBranchRequest) returns (BranchResponse);
+  rpc CreateBranch (CreateBranchRequest) returns (BranchResponse);
+}
+
+service PositionService {
+  rpc GetPosition (GetPositionRequest) returns (PositionResponse);
+  rpc CreatePosition (CreatePositionRequest) returns (PositionResponse);
+}
+
+service PayrollItemService {
+  rpc GetPayrollItem (GetPayrollItemRequest) returns (PayrollItemResponse);
+  rpc CreatePayrollItem (CreatePayrollItemRequest) returns (PayrollItemResponse);
+}
+
+service PayrollPeriodService {
+  rpc GetPayrollPeriod (GetPayrollPeriodRequest) returns (PayrollPeriodResponse);
+  rpc CreatePayrollPeriod (CreatePayrollPeriodRequest) returns (PayrollPeriodResponse);
+}
+
+service PayrollRunService {
+  rpc GetPayrollRun (GetPayrollRunRequest) returns (PayrollRunResponse);
+  rpc CreatePayrollRun (CreatePayrollRunRequest) returns (PayrollRunResponse);
+}
+
+service SalaryStructureService {
+  rpc GetSalaryStructure (GetSalaryStructureRequest) returns (SalaryStructureResponse);
+  rpc CreateSalaryStructure (CreateSalaryStructureRequest) returns (SalaryStructureResponse);
+}
+
+service SalaryStructureItemService {
+  rpc GetSalaryStructureItem (GetSalaryStructureItemRequest) returns (SalaryStructureItemResponse);
+  rpc CreateSalaryStructureItem (CreateSalaryStructureItemRequest) returns (SalaryStructureItemResponse);
+}
+
+service TaxRateService {
+  rpc GetTaxRate (GetTaxRateRequest) returns (TaxRateResponse);
+  rpc CreateTaxRate (CreateTaxRateRequest) returns (TaxRateResponse);
+}
+
+service SocialSecurityRateService {
+  rpc GetSocialSecurityRate (GetSocialSecurityRateRequest) returns (SocialSecurityRateResponse);
+  rpc CreateSocialSecurityRate (CreateSocialSecurityRateRequest) returns (SocialSecurityRateResponse);
+}
+
+service AllowanceTypeService {
+  rpc GetAllowanceType (GetAllowanceTypeRequest) returns (AllowanceTypeResponse);
+  rpc CreateAllowanceType (CreateAllowanceTypeRequest) returns (AllowanceTypeResponse);
+}
+
+service LeaveTypeService {
+  rpc GetLeaveType (GetLeaveTypeRequest) returns (LeaveTypeResponse);
+  rpc CreateLeaveType (CreateLeaveTypeRequest) returns (LeaveTypeResponse);
+}
+
+service ShiftService {
+  rpc GetShift (GetShiftRequest) returns (ShiftResponse);
+  rpc CreateShift (CreateShiftRequest) returns (ShiftResponse);
+}
+
+service EmploymentService {
+  rpc GetEmployment (GetEmploymentRequest) returns (EmploymentResponse);
+  rpc CreateEmployment (CreateEmploymentRequest) returns (EmploymentResponse);
+}
+
+service EmploymentContractService {
+  rpc GetEmploymentContract (GetEmploymentContractRequest) returns (EmploymentContractResponse);
+  rpc CreateEmploymentContract (CreateEmploymentContractRequest) returns (EmploymentContractResponse);
+}
+
+service LeaveRequestService {
+  rpc GetLeaveRequest (GetLeaveRequestRequest) returns (LeaveRequestResponse);
+  rpc CreateLeaveRequest (CreateLeaveRequestRequest) returns (LeaveRequestResponse);
+}
+
+service LeaveBalanceService {
+  rpc GetLeaveBalance (GetLeaveBalanceRequest) returns (LeaveBalanceResponse);
+  rpc CreateLeaveBalance (CreateLeaveBalanceRequest) returns (LeaveBalanceResponse);
+}
+
+service AttendanceLogService {
+  rpc GetAttendanceLog (GetAttendanceLogRequest) returns (AttendanceLogResponse);
+  rpc CreateAttendanceLog (CreateAttendanceLogRequest) returns (AttendanceLogResponse);
+}
+
+service EmployeeAllowanceService {
+  rpc GetEmployeeAllowance (GetEmployeeAllowanceRequest) returns (EmployeeAllowanceResponse);
+  rpc CreateEmployeeAllowance (CreateEmployeeAllowanceRequest) returns (EmployeeAllowanceResponse);
+}
+
+// Company
+message GetCompanyRequest { string id = 1; }
+message CreateCompanyRequest {
+  string code = 1;
+  string tax_id = 2;
+  string name_th = 3;
+  string name_en = 4;
+  string address = 5;
+  string phone = 6;
+  string email = 7;
+}
+message CompanyResponse {
+  string id = 1;
+  string code = 2;
+  string tax_id = 3;
+  string name_th = 4;
+  string name_en = 5;
+  string address = 6;
+  string phone = 7;
+  string email = 8;
+  bool is_active = 9;
+}
+
+// Employee
+message GetEmployeeRequest { string id = 1; }
+message CreateEmployeeRequest {
+  string employee_no = 1;
+  string citizen_id = 2;
+  string passport_no = 3;
+  string title = 4;
+  string first_name_th = 5;
+  string last_name_th = 6;
+  string first_name_en = 7;
+  string last_name_en = 8;
+  string gender = 9;
+  string birth_date = 10;
+  string marital_status = 11;
+  string nationality = 12;
+  string religion = 13;
+  string phone = 14;
+  string email = 15;
+  string current_address = 16;
+  string permanent_address = 17;
+  string emergency_contact_name = 18;
+  string emergency_contact_phone = 19;
+  string blood_group = 20;
+  string photo_url = 21;
+}
+message EmployeeResponse {
+  string id = 1;
+  string employee_no = 2;
+  string citizen_id = 3;
+  string passport_no = 4;
+  string title = 5;
+  string first_name_th = 6;
+  string last_name_th = 7;
+  string first_name_en = 8;
+  string last_name_en = 9;
+  string gender = 10;
+  string birth_date = 11;
+  string marital_status = 12;
+  string nationality = 13;
+  string religion = 14;
+  string phone = 15;
+  string email = 16;
+  string current_address = 17;
+  string permanent_address = 18;
+  string emergency_contact_name = 19;
+  string emergency_contact_phone = 20;
+  string blood_group = 21;
+  string photo_url = 22;
+  string status = 23;
+}
+
+// Department
+message GetDepartmentRequest { string id = 1; }
+message CreateDepartmentRequest {
+  string company_id = 1;
+  string parent_id = 2;
+  string code = 3;
+  string name = 4;
+  string cost_center = 5;
+}
+message DepartmentResponse {
+  string id = 1;
+  string company_id = 2;
+  string parent_id = 3;
+  string code = 4;
+  string name = 5;
+  string cost_center = 6;
+}
+
+// Branch
+message GetBranchRequest { string id = 1; }
+message CreateBranchRequest {
+  string company_id = 1;
+  string code = 2;
+  string name = 3;
+  string timezone = 4;
+  string address = 5;
+}
+message BranchResponse {
+  string id = 1;
+  string company_id = 2;
+  string code = 3;
+  string name = 4;
+  string timezone = 5;
+  string address = 6;
+  string created_at = 7;
+}
+
+// Position
+message GetPositionRequest { string id = 1; }
+message CreatePositionRequest {
+  string code = 1;
+  string name = 2;
+  int32 level = 3;
+  string job_grade = 4;
+}
+message PositionResponse {
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  int32 level = 4;
+  string job_grade = 5;
+}
+
+// PayrollItem
+message GetPayrollItemRequest { string id = 1; }
+message CreatePayrollItemRequest {
+  string payroll_run_id = 1;
+  string item_code = 2;
+  string item_name = 3;
+  string item_category = 4;
+  string quantity = 5;
+  string rate = 6;
+  string amount = 7;
+  bool taxable = 8;
+}
+message PayrollItemResponse {
+  string id = 1;
+  string payroll_run_id = 2;
+  string item_code = 3;
+  string item_name = 4;
+  string item_category = 5;
+  string quantity = 6;
+  string rate = 7;
+  string amount = 8;
+  bool taxable = 9;
+}
+
+// PayrollPeriod
+message GetPayrollPeriodRequest { string id = 1; }
+message CreatePayrollPeriodRequest {
+  string company_id = 1;
+  string period_code = 2;
+  string start_date = 3;
+  string end_date = 4;
+  string payment_date = 5;
+  string status = 6;
+}
+message PayrollPeriodResponse {
+  string id = 1;
+  string company_id = 2;
+  string period_code = 3;
+  string start_date = 4;
+  string end_date = 5;
+  string payment_date = 6;
+  string status = 7;
+}
+
+// PayrollRun
+message GetPayrollRunRequest { string id = 1; }
+message CreatePayrollRunRequest {
+  string payroll_period_id = 1;
+  string employee_id = 2;
+  string gross_income = 3;
+  string total_deduction = 4;
+  string taxable_income = 5;
+  string tax_amount = 6;
+  string social_security = 7;
+  string net_income = 8;
+  string status = 9;
+}
+message PayrollRunResponse {
+  string id = 1;
+  string payroll_period_id = 2;
+  string employee_id = 3;
+  string gross_income = 4;
+  string total_deduction = 5;
+  string taxable_income = 6;
+  string tax_amount = 7;
+  string social_security = 8;
+  string net_income = 9;
+  string status = 10;
+  string calculated_at = 11;
+}
+
+// SalaryStructure
+message GetSalaryStructureRequest { string id = 1; }
+message CreateSalaryStructureRequest {
+  string code = 1;
+  string name = 2;
+  string company_id = 3;
+}
+message SalaryStructureResponse {
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  string company_id = 4;
+}
+
+// SalaryStructureItem
+message GetSalaryStructureItemRequest { string id = 1; }
+message CreateSalaryStructureItemRequest {
+  string salary_structure_id = 1;
+  string code = 2;
+  string name = 3;
+  string item_type = 4;
+  string calculation_type = 5;
+  bool taxable = 6;
+  bool sso_calculatable = 7;
+  int32 sequence = 8;
+}
+message SalaryStructureItemResponse {
+  string id = 1;
+  string salary_structure_id = 2;
+  string code = 3;
+  string name = 4;
+  string item_type = 5;
+  string calculation_type = 6;
+  bool taxable = 7;
+  bool sso_calculatable = 8;
+  int32 sequence = 9;
+}
+
+// TaxRate
+message GetTaxRateRequest { string id = 1; }
+message CreateTaxRateRequest {
+  int32 year = 1;
+  string min_income = 2;
+  string max_income = 3;
+  string tax_percent = 4;
+}
+message TaxRateResponse {
+  string id = 1;
+  int32 year = 2;
+  string min_income = 3;
+  string max_income = 4;
+  string tax_percent = 5;
+}
+
+// SocialSecurityRate
+message GetSocialSecurityRateRequest { string id = 1; }
+message CreateSocialSecurityRateRequest {
+  string effective_date = 1;
+  string employee_percent = 2;
+  string employer_percent = 3;
+  string max_salary = 4;
+}
+message SocialSecurityRateResponse {
+  string id = 1;
+  string effective_date = 2;
+  string employee_percent = 3;
+  string employer_percent = 4;
+  string max_salary = 5;
+}
+
+// AllowanceType
+message GetAllowanceTypeRequest { string id = 1; }
+message CreateAllowanceTypeRequest {
+  string code = 1;
+  string name = 2;
+  bool taxable = 3;
+}
+message AllowanceTypeResponse {
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  bool taxable = 4;
+}
+
+// LeaveType
+message GetLeaveTypeRequest { string id = 1; }
+message CreateLeaveTypeRequest {
+  string code = 1;
+  string name = 2;
+  bool paid = 3;
+  string max_days_per_year = 4;
+  string gender_restriction = 5;
+}
+message LeaveTypeResponse {
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  bool paid = 4;
+  string max_days_per_year = 5;
+  string gender_restriction = 6;
+}
+
+// Shift
+message GetShiftRequest { string id = 1; }
+message CreateShiftRequest {
+  string code = 1;
+  string name = 2;
+  string start_time = 3;
+  string end_time = 4;
+  int32 break_minutes = 5;
+  int32 late_grace_minutes = 6;
+}
+
+// Employment
+message GetEmploymentRequest { string id = 1; }
+message CreateEmploymentRequest {
+  string employee_id = 1;
+  string company_id = 2;
+  string branch_id = 3;
+  string department_id = 4;
+  string position_id = 5;
+  string manager_employee_id = 6;
+  string employment_type = 7;
+  string employment_status = 8;
+  string hire_date = 9;
+  string probation_end_date = 10;
+  string payroll_group = 11;
+  string work_location = 12;
+}
+message EmploymentResponse {
+  string id = 1;
+  string employee_id = 2;
+  string company_id = 3;
+  string branch_id = 4;
+  string department_id = 5;
+  string position_id = 6;
+  string manager_employee_id = 7;
+  string employment_type = 8;
+  string employment_status = 9;
+  string hire_date = 10;
+  string probation_end_date = 11;
+  string resignation_date = 12;
+  string last_working_date = 13;
+  string payroll_group = 14;
+  string work_location = 15;
+  string created_at = 16;
+  }
+
+  // EmploymentContract
+  message GetEmploymentContractRequest { string id = 1; }
+  message CreateEmploymentContractRequest {
+  string employment_id = 1;
+  string contract_no = 2;
+  string contract_type = 3;
+  string start_date = 4;
+  string end_date = 5;
+  string signed_date = 6;
+  string basic_salary = 7;
+  string salary_type = 8;
+  string currency = 9;
+  string document_url = 10;
+  }
+  message EmploymentContractResponse {
+  string id = 1;
+  string employment_id = 2;
+  string contract_no = 3;
+  string contract_type = 4;
+  string start_date = 5;
+  string end_date = 6;
+  string signed_date = 7;
+  string basic_salary = 8;
+  string salary_type = 9;
+  string currency = 10;
+  string document_url = 11;
+  }
+
+  // LeaveRequest
+  message GetLeaveRequestRequest { string id = 1; }
+  message CreateLeaveRequestRequest {
+  string employee_id = 1;
+  string leave_type_id = 2;
+  string start_date = 3;
+  string end_date = 4;
+  string total_days = 5;
+  string reason = 6;
+  }
+  message LeaveRequestResponse {
+  string id = 1;
+  string employee_id = 2;
+  string leave_type_id = 3;
+  string start_date = 4;
+  string end_date = 5;
+  string total_days = 6;
+  string reason = 7;
+  string status = 8;
+  string approved_by = 9;
+  string approved_at = 10;
+  }
+
+  // LeaveBalance
+  message GetLeaveBalanceRequest { string id = 1; }
+  message CreateLeaveBalanceRequest {
+  string employee_id = 1;
+  string leave_type_id = 2;
+  int32 year = 3;
+  string entitled_days = 4;
+  string used_days = 5;
+  }
+  message LeaveBalanceResponse {
+  string id = 1;
+  string employee_id = 2;
+  string leave_type_id = 3;
+  int32 year = 4;
+  string entitled_days = 5;
+  string used_days = 6;
+  string remaining_days = 7;
+  }
+
+  // AttendanceLog
+  message GetAttendanceLogRequest { int64 id = 1; }
+  message CreateAttendanceLogRequest {
+  string employee_id = 1;
+  string device_id = 2;
+  string punch_time = 3;
+  string punch_type = 4;
+  string raw_payload = 5;
+  }
+  message AttendanceLogResponse {
+  int64 id = 1;
+  string employee_id = 2;
+  string device_id = 3;
+  string punch_time = 4;
+  string punch_type = 5;
+  string raw_payload = 6;
+  }
+
+  // EmployeeAllowance
+  message GetEmployeeAllowanceRequest { string id = 1; }
+  message CreateEmployeeAllowanceRequest {
+  string employee_id = 1;
+  string allowance_type_id = 2;
+  string amount = 3;
+  string effective_date = 4;
+  string end_date = 5;
+  }
+  message EmployeeAllowanceResponse {
+  string id = 1;
+  string employee_id = 2;
+  string allowance_type_id = 3;
+  string amount = 4;
+  string effective_date = 5;
+  string end_date = 6;
+  }
+
+  message ShiftResponse {
+
+  string id = 1;
+  string code = 2;
+  string name = 3;
+  string start_time = 4;
+  string end_time = 5;
+  int32 break_minutes = 6;
+  int32 late_grace_minutes = 7;
+}
