@@ -1,0 +1,14 @@
+use async_trait::async_trait;
+use crate::domain::attendance_log::entity::Model;
+use crate::domain::errors::AppResult;
+use crate::domain::shared::dtos::{PaginationQuery, PaginatedResponse};
+
+#[async_trait]
+pub trait AttendanceLogRepository: Send + Sync {
+    async fn create(&self, attendance_log: Model) -> AppResult<Model>;
+    async fn delete(&self, id: i64) -> AppResult<()>;
+    async fn update(&self, attendance_log: Model) -> AppResult<Model>;
+    async fn find_by_id(&self, id: i64) -> AppResult<Model>;
+    async fn find_all(&self, query: PaginationQuery) -> AppResult<PaginatedResponse<Model>>;
+    async fn find_latest_code(&self) -> AppResult<Option<String>>;
+}

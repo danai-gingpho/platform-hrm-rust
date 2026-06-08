@@ -1,0 +1,151 @@
+# api-gateway runtime config.
+# Copy to `config.toml` and adjust for your env.
+
+[server]
+addr        = "0.0.0.0:8000"
+timeout_ms  = 30000
+rate_limit_rps = 50
+rate_limit_burst = 100
+
+[keycloak]
+issuer              = "http://localhost:8081/realms/pms"
+audience            = "pms-clients"
+jwks_url            = "http://localhost:8081/realms/pms/protocol/openid-connect/certs"
+jwks_cache_ttl_secs = 3600
+# realm_access.roles ... resource_access.<client>.roles
+client_id           = "pms-clients"
+
+# Single upstream for now: pms-booking. Add more here when adding services.
+[[upstream]]
+name        = "pms-booking"
+target      = "http://localhost:8080"
+strip_prefix = ""              # forward path as-is
+
+# Route policies — first match wins. `pattern` uses axum-style `:param` and `*rest`.
+# `roles` is OR-semantics (any-of). Empty `roles` + `public = true` = no auth required.
+
+[[route]]
+pattern  = "/api/booking/quote"
+methods  = ["POST"]
+upstream = "pms-booking"
+public   = true
+
+[[route]]
+pattern  = "/api/booking/book"
+methods  = ["POST"]
+upstream = "pms-booking"
+public   = true
+
+[[route]]
+pattern  = "/api/booking/vouchers"
+methods  = ["GET", "POST"]
+upstream = "pms-booking"
+roles    = ["pms-admin"]
+
+[[route]]
+pattern  = "/api/channels"
+methods  = ["GET", "POST"]
+upstream = "pms-booking"
+roles    = ["pms-admin"]
+
+[[route]]
+pattern  = "/api/channels/:id"
+methods  = ["GET", "PATCH", "DELETE"]
+upstream = "pms-booking"
+roles    = ["pms-admin"]
+
+[[route]]
+pattern  = "/api/rates/room-types"
+methods  = ["GET"]
+upstream = "pms-booking"
+roles    = ["pms-staff", "pms-admin"]
+
+[[route]]
+pattern  = "/api/rates/room-types"
+methods  = ["POST"]
+upstream = "pms-booking"
+roles    = ["pms-admin"]
+
+[[route]]
+pattern  = "/api/rates/room-types/:id"
+methods  = ["GET"]
+upstream = "pms-booking"
+roles    = ["pms-staff", "pms-admin"]
+
+[[route]]
+pattern  = "/api/rates/room-types/:id"
+methods  = ["PATCH", "DELETE"]
+upstream = "pms-booking"
+roles    = ["pms-admin"]
+
+[[route]]
+pattern  = "/api/rates/plans"
+methods  = ["GET"]
+upstream = "pms-booking"
+roles    = ["pms-staff", "pms-admin"]
+
+[[route]]
+pattern  = "/api/rates/plans"
+methods  = ["POST"]
+upstream = "pms-booking"
+roles    = ["pms-admin"]
+
+[[route]]
+pattern  = "/api/rates/plans/:id"
+methods  = ["GET"]
+upstream = "pms-booking"
+roles    = ["pms-staff", "pms-admin"]
+
+[[route]]
+pattern  = "/api/rates/plans/:id"
+methods  = ["PATCH", "DELETE"]
+upstream = "pms-booking"
+roles    = ["pms-admin"]
+
+[[route]]
+pattern  = "/api/rates/values"
+methods  = ["GET"]
+upstream = "pms-booking"
+roles    = ["pms-staff", "pms-admin", "pms-revenue"]
+
+[[route]]
+pattern  = "/api/rates/values"
+methods  = ["POST"]
+upstream = "pms-booking"
+roles    = ["pms-revenue", "pms-admin"]
+
+[[route]]
+pattern  = "/api/rates/inventory"
+methods  = ["POST"]
+upstream = "pms-booking"
+roles    = ["pms-revenue", "pms-admin"]
+
+[[route]]
+pattern  = "/api/rates/availability"
+methods  = ["GET"]
+upstream = "pms-booking"
+roles    = ["pms-staff", "pms-admin", "pms-revenue"]
+
+[[route]]
+pattern  = "/api/reservations"
+methods  = ["GET", "POST"]
+upstream = "pms-booking"
+roles    = ["pms-frontdesk", "pms-admin"]
+
+[[route]]
+pattern  = "/api/reservations/:id"
+methods  = ["GET"]
+upstream = "pms-booking"
+roles    = ["pms-frontdesk", "pms-admin"]
+
+[[route]]
+pattern  = "/api/reservations/:id/status"
+methods  = ["POST"]
+upstream = "pms-booking"
+roles    = ["pms-frontdesk", "pms-admin"]
+
+[[route]]
+pattern  = "/api/reservations/:id/cancel"
+methods  = ["POST"]
+upstream = "pms-booking"
+roles    = ["pms-frontdesk", "pms-admin"]
