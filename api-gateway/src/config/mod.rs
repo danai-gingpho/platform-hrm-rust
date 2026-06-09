@@ -18,6 +18,7 @@ pub struct GrpcConfig {
     pub auth_url: String,
     pub hris_url: String,
     pub platform_url: String,
+    pub owner_url: String,
 }
 
 #[derive(Debug, Deserialize, Clone)]

@@ -8,8 +8,10 @@ use crate::infrastructure::grpc::{
     hris::{
         employee_service_client::EmployeeServiceClient,
         legal_entity_service_client::LegalEntityServiceClient,
+        branch_service_client::BranchServiceClient,
     },
     platform::platform_service_client::PlatformServiceClient,
+    owner::owner_auth_service_client::OwnerAuthServiceClient,
 };
 use crate::infrastructure::http_client::upstream::UpstreamRegistry;
 use crate::infrastructure::keycloak::{jwks::JwksCache, verifier::JwtVerifier};
@@ -57,6 +59,7 @@ pub async fn build_state(cfg: &Config) -> anyhow::Result<AppState> {
     let auth_channel = Channel::from_shared(cfg.grpc.auth_url.clone())?.connect().await?;
     let hris_channel = Channel::from_shared(cfg.grpc.hris_url.clone())?.connect().await?;
     let platform_channel = Channel::from_shared(cfg.grpc.platform_url.clone())?.connect().await?;
+    let owner_channel = Channel::from_shared(cfg.grpc.owner_url.clone())?.connect().await?;
 
     Ok(AppState {
         verifier,
@@ -64,7 +67,9 @@ pub async fn build_state(cfg: &Config) -> anyhow::Result<AppState> {
         routes: Arc::new(routes),
         auth_client: AuthServiceClient::new(auth_channel),
         hris_employee_client: EmployeeServiceClient::new(hris_channel.clone()),
-        hris_legal_entity_client: LegalEntityServiceClient::new(hris_channel),
+        hris_legal_entity_client: LegalEntityServiceClient::new(hris_channel.clone()),
+        hris_branch_client: BranchServiceClient::new(hris_channel),
         platform_client: PlatformServiceClient::new(platform_channel),
+        owner_client: OwnerAuthServiceClient::new(owner_channel),
     })
 }

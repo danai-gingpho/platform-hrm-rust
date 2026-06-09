@@ -1,3 +1,6 @@
+use crate::application::employee::dto::{CreateEmployeeRequest, UpdateEmployeeRequest};
+use crate::application::employee::service::EmployeeService;
+use crate::domain::shared::dtos::PaginationQuery;
 use axum::{
     extract::{Path, Query, State},
     routing::get,
@@ -5,14 +8,16 @@ use axum::{
 };
 use std::sync::Arc;
 use uuid::Uuid;
-use crate::application::employee::service::EmployeeService;
-use crate::application::employee::dto::CreateEmployeeRequest;
-use crate::domain::shared::dtos::PaginationQuery;
 
 pub fn router(service: Arc<EmployeeService>) -> Router {
     Router::new()
         .route("/", get(get_all_employees).post(create_employee))
-        .route("/:id", get(get_employee_by_id))
+        .route(
+            "/:id",
+            get(get_employee_by_id)
+                .put(update_employee)
+                .delete(delete_employee),
+        )
         .with_state(service)
 }
 
@@ -40,5 +45,24 @@ async fn create_employee(
 ) -> Result<Json<crate::domain::employee::entity::Model>, String> {
     service.create_employee(req).await
         .map(Json)
+        .map_err(|e| e.to_string())
+}
+
+async fn update_employee(
+    State(service): State<Arc<EmployeeService>>,
+    Path(id): Path<Uuid>,
+    Json(req): Json<UpdateEmployeeRequest>,
+) -> Result<Json<crate::domain::employee::entity::Model>, String> {
+    service.update_employee(id, req).await
+        .map(Json)
+        .map_err(|e| e.to_string())
+}
+
+async fn delete_employee(
+    State(service): State<Arc<EmployeeService>>,
+    Path(id): Path<Uuid>,
+) -> Result<Json<()>, String> {
+    service.delete_employee(id).await
+        .map(|_| Json(()))
         .map_err(|e| e.to_string())
 }

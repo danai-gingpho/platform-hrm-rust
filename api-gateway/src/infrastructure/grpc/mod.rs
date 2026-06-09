@@ -9,3 +9,7 @@ pub mod hris {
 pub mod platform {
     tonic::include_proto!("platform");
 }
+
+pub mod owner {
+    tonic::include_proto!("owner");
+}

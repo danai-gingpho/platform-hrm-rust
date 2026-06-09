@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package owner;
+
+service OwnerAuthService {
+  // Authentication
+  rpc Login (LoginRequest) returns (AuthResponse);
+  rpc ValidateToken (ValidateTokenRequest) returns (ValidateTokenResponse);
+
+  // Staff Management
+  rpc CreateStaff (CreateStaffRequest) returns (StaffResponse);
+  rpc GetStaff (GetStaffRequest) returns (StaffResponse);
+  
+  // RBAC (Role-Based Access Control)
+  rpc CreateRole (CreateRoleRequest) returns (RoleResponse);
+  rpc CreatePermission (CreatePermissionRequest) returns (PermissionResponse);
+  rpc AssignRoleToStaff (AssignRoleRequest) returns (ActionResponse);
+  rpc AssignPermissionToRole (AssignPermissionRequest) returns (ActionResponse);
+}
+
+// Auth Messages
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message AuthResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+  StaffResponse staff = 3;
+}
+
+message ValidateTokenRequest {
+  string token = 1;
+}
+
+message ValidateTokenResponse {
+  bool valid = 1;
+  string staff_id = 2;
+  repeated string permissions = 3;
+}
+
+// Staff Messages
+message CreateStaffRequest {
+  string email = 1;
+  string password = 2;
+  string first_name = 3;
+  string last_name = 4;
+}
+
+message GetStaffRequest {
+  string id = 1;
+}
+
+message StaffResponse {
+  string id = 1;
+  string email = 2;
+  string first_name = 3;
+  string last_name = 4;
+  bool is_active = 5;
+}
+
+// RBAC Messages
+message CreateRoleRequest {
+  string name = 1;
+  string description = 2;
+}
+
+message RoleResponse {
+  string id = 1;
+  string name = 2;
+}
+
+message CreatePermissionRequest {
+  string name = 1;
+  string code = 2; // e.g., "manage_companies"
+}
+
+message PermissionResponse {
+  string id = 1;
+  string name = 2;
+  string code = 3;
+}
+
+message AssignRoleRequest {
+  string staff_id = 1;
+  string role_id = 2;
+}
+
+message AssignPermissionRequest {
+  string role_id = 1;
+  string permission_id = 2;
+}
+
+message ActionResponse {
+  bool success = 1;
+  string message = 2;
+}

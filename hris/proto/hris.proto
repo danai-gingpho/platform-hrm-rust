@@ -162,6 +162,48 @@ message CreateEmployeeRequest {
   string blood_group = 20;
   string photo_url = 21;
 }
+
+message UpdateEmployeeRequest {
+  string id = 1;
+  optional string citizen_id = 2;
+  optional string passport_no = 3;
+  optional string title = 4;
+  optional string first_name_th = 5;
+  optional string last_name_th = 6;
+  optional string first_name_en = 7;
+  optional string last_name_en = 8;
+  optional string gender = 9;
+  optional string birth_date = 10;
+  optional string marital_status = 11;
+  optional string nationality = 12;
+  optional string religion = 13;
+  optional string phone = 14;
+  optional string email = 15;
+  optional string current_address = 16;
+  optional string permanent_address = 17;
+  optional string emergency_contact_name = 18;
+  optional string emergency_contact_phone = 19;
+  optional string blood_group = 20;
+  optional string photo_url = 21;
+  optional string status = 22;
+}
+
+message DeleteEmployeeRequest {
+  string id = 1;
+}
+
+message ListEmployeesRequest {
+  uint32 page = 1;
+  uint32 per_page = 2;
+}
+
+message ListEmployeesResponse {
+  repeated EmployeeResponse items = 1;
+  uint32 total_items = 2;
+  uint32 total_pages = 3;
+  uint32 current_page = 4;
+  uint32 per_page = 5;
+}
 message EmployeeResponse {
   string id = 1;
   string employee_no = 2;
@@ -192,53 +234,128 @@ message EmployeeResponse {
 message GetDepartmentRequest { string id = 1; }
 message CreateDepartmentRequest {
   string legal_entity_id = 1;
-  string parent_id = 2;
-  string code = 3;
+  optional string parent_id = 2;
+  optional string code = 3;
   string name = 4;
-  string cost_center = 5;
+  optional string cost_center = 5;
 }
+
+message UpdateDepartmentRequest {
+  string id = 1;
+  optional string parent_id = 2;
+  optional string name = 3;
+  optional string cost_center = 4;
+}
+
+message DeleteDepartmentRequest {
+  string id = 1;
+}
+
+message ListDepartmentsRequest {
+  uint32 page = 1;
+  uint32 per_page = 2;
+}
+
+message ListDepartmentsResponse {
+  repeated DepartmentResponse items = 1;
+  uint32 total_items = 2;
+  uint32 total_pages = 3;
+  uint32 current_page = 4;
+  uint32 per_page = 5;
+}
+
 message DepartmentResponse {
   string id = 1;
   string legal_entity_id = 2;
-  string parent_id = 3;
+  optional string parent_id = 3;
   string code = 4;
   string name = 5;
-  string cost_center = 6;
+  optional string cost_center = 6;
 }
 
 // Branch
 message GetBranchRequest { string id = 1; }
 message CreateBranchRequest {
   string legal_entity_id = 1;
-  string code = 2;
+  optional string code = 2;
   string name = 3;
   string timezone = 4;
-  string address = 5;
+  optional string address = 5;
 }
+
+message UpdateBranchRequest {
+  string id = 1;
+  optional string name = 2;
+  optional string timezone = 3;
+  optional string address = 4;
+}
+
+message DeleteBranchRequest {
+  string id = 1;
+}
+
+message ListBranchesRequest {
+  uint32 page = 1;
+  uint32 per_page = 2;
+}
+
+message ListBranchesResponse {
+  repeated BranchResponse items = 1;
+  uint32 total_items = 2;
+  uint32 total_pages = 3;
+  uint32 current_page = 4;
+  uint32 per_page = 5;
+}
+
 message BranchResponse {
   string id = 1;
   string legal_entity_id = 2;
   string code = 3;
   string name = 4;
   string timezone = 5;
-  string address = 6;
+  optional string address = 6;
   string created_at = 7;
 }
 
 // Position
 message GetPositionRequest { string id = 1; }
 message CreatePositionRequest {
-  string code = 1;
+  optional string code = 1;
   string name = 2;
   int32 level = 3;
-  string job_grade = 4;
+  optional string job_grade = 4;
 }
+
+message UpdatePositionRequest {
+  string id = 1;
+  optional string name = 2;
+  optional int32 level = 3;
+  optional string job_grade = 4;
+}
+
+message DeletePositionRequest {
+  string id = 1;
+}
+
+message ListPositionsRequest {
+  uint32 page = 1;
+  uint32 per_page = 2;
+}
+
+message ListPositionsResponse {
+  repeated PositionResponse items = 1;
+  uint32 total_items = 2;
+  uint32 total_pages = 3;
+  uint32 current_page = 4;
+  uint32 per_page = 5;
+}
+
 message PositionResponse {
   string id = 1;
   string code = 2;
   string name = 3;
   int32 level = 4;
-  string job_grade = 5;
+  optional string job_grade = 5;
 }
 
 // PayrollItem
