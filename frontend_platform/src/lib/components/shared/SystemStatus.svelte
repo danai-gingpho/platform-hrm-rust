@@ -1,7 +1,7 @@
 <script lang="ts">
 	let systemStatus = $state({ status: 'Loading...', version: '' });
 
-	async fn fetchStatus() {
+	async function fetchStatus() {
 		try {
 			const response = await fetch('/api/v1/owner/status');
 			if (response.ok) {

@@ -3,6 +3,9 @@ pub mod proto {
     pub mod auth {
         tonic::include_proto!("auth");
     }
+    pub mod owner {
+        tonic::include_proto!("owner");
+    }
 }
 
 pub mod interface;

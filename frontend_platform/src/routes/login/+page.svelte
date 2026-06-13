@@ -10,14 +10,21 @@
 		errorMessage = '';
 
 		try {
-			// Mock API call - Integrate with your Rust Auth service here
-			const response = await fetch('/api/auth/login', {
+			const response = await fetch('/api/v1/owner/login', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ email, password })
 			});
 
 			if (!response.ok) throw new Error('Invalid credentials');
+
+			const data = await response.json();
+			
+			// Save token to cookie for hooks.server.ts
+			document.cookie = `auth_token=${data.access_token}; path=/; max-age=86400; SameSite=Strict`;
+			
+			// Also update local storage if needed by stores
+			localStorage.setItem('auth_token', data.access_token);
 
 			// Handle successful login (e.g., redirect to dashboard)
 			window.location.href = '/dashboard';

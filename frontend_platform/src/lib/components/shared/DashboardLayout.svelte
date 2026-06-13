@@ -30,7 +30,7 @@
 				>
 					<span class="capitalize">{item.name}</span>
 				</a>
-			{each}
+			{/each}
 		</nav>
 
 		<div class="p-4 border-t border-slate-800">

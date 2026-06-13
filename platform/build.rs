@@ -4,7 +4,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .build_client(true)
         .type_attribute(".", "#[derive(serde::Serialize, serde::Deserialize)]")
         .compile(
-            &["proto/platform.proto", "../auth/proto/auth.proto"],
+            &["proto/platform.proto", "../auth/proto/auth.proto", "proto/owner.proto"],
             &["proto", "../auth/proto"],
         )?;
     Ok(())

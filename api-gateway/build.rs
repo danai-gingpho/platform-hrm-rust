@@ -5,6 +5,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 "proto/auth.proto",
                 "proto/hris.proto",
                 "proto/platform.proto",
+                "proto/owner.proto",
             ],
             &["proto"],
         )?;

@@ -10,6 +10,8 @@ use axum::{
     Router,
 };
 use serde::{Deserialize, Serialize};
+use crate::interface::http::state::AppState;
+use crate::domain::errors::GatewayError;
 
 pub fn routes(_state: AppState) -> Router<AppState> {
     Router::new()
@@ -51,11 +53,11 @@ async fn create_branch(
 ) -> Result<Json<BranchResponseDto>, GatewayError> {
     let response = state.hris_branch_client
         .create_branch(CreateBranchRequest {
-            legal_entity_id: payload.legal_entity_id,
-            code: payload.code,
-            name: payload.name,
-            timezone: payload.timezone,
-            address: payload.address.unwrap_or_default(),
+            legal_entity_id: Some(payload.legal_entity_id),
+            code: Some(payload.code),
+            name: Some(payload.name),
+            timezone: Some(payload.timezone),
+            address: Some(payload.address.unwrap_or_default()),
         })
         .await
         .map_err(|e| GatewayError::Internal(anyhow::anyhow!("gRPC error: {}", e)))?;
@@ -91,8 +93,6 @@ async fn get_branch(
         address: Some(res.address),
         created_at: res.created_at,
     }))
-}
-
 }
 
 // Employee

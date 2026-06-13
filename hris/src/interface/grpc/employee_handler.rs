@@ -176,18 +176,19 @@ impl EmployeeGrpcService for EmployeeGrpcHandler {
         let req = request.into_inner();
         let query = PaginationQuery {
             page: Some(req.page as u64),
-            per_page: Some(req.per_page as u64),
+            limit: Some(req.per_page as u64),
+            search: None,
         };
 
         let response = self.service.get_all_employees(query).await
             .map_err(|e| Status::internal(e.to_string()))?;
 
         Ok(Response::new(ListEmployeesResponse {
-            items: response.items.into_iter().map(map_employee_to_response).collect(),
-            total_items: response.total_items as u32,
+            items: response.data.into_iter().map(map_employee_to_response).collect(),
+            total_items: response.total as u32,
             total_pages: response.total_pages as u32,
-            current_page: response.current_page as u32,
-            per_page: response.per_page as u32,
+            current_page: response.page as u32,
+            per_page: response.limit as u32,
         }))
     }
 }
