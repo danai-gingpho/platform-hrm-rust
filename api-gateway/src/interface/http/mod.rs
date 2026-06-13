@@ -43,10 +43,9 @@ pub fn build(state: AppState, cfg: crate::config::Config) -> Router {
         .route("/health", get(health))
         .route("/metrics", get(metrics_stub));
 
-    let gateway = grpc_gateway::routes(state.clone());
-
     let mw_state = state.clone();
-    let proxied = Router::new()
+    let protected = Router::new()
+        .merge(gateway)
         .fallback(any(proxy::handler::proxy))
         .layer(from_fn(move |req, next| {
             let s = mw_state.clone();
@@ -55,8 +54,7 @@ pub fn build(state: AppState, cfg: crate::config::Config) -> Router {
 
     let app = Router::new()
         .merge(public)
-        .merge(gateway)
-        .merge(proxied)
+        .merge(protected)
         .layer(from_fn(middleware::metrics::middleware))
         .layer(GovernorLayer {
             config: gov_config,

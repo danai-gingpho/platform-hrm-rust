@@ -21,6 +21,7 @@ pub mod attendance_log;
 pub mod employee_allowance;
 use sea_orm::{Database, DatabaseConnection};
 use crate::domain::errors::AppResult;
+pub use tenant::TenantDatabase;
 
 pub async fn init_db(database_url: &str) -> AppResult<DatabaseConnection> {
     let db = Database::connect(database_url).await?;

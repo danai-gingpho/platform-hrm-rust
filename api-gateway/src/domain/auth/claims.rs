@@ -66,6 +66,7 @@ impl AuthContext {
             sub: claims.sub,
             email: claims.email,
             username: claims.preferred_username,
+            tenant_id: claims.tenant_id,
             realm_roles,
             client_roles,
             scopes,
@@ -91,5 +92,8 @@ impl AuthContext {
         all.sort();
         all.dedup();
         all.into_iter().cloned().collect::<Vec<_>>().join(",")
+    }
+}
+in(",")
     }
 }

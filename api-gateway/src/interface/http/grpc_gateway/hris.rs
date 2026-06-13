@@ -235,13 +235,20 @@ async fn delete_employee(
 
 async fn list_employees(
     State(mut state): State<AppState>,
+    Extension(auth): Extension<crate::domain::auth::claims::AuthContext>,
     Query(query): Query<PaginationQuery>,
 ) -> Result<Json<ListResponseDto<EmployeeResponseDto>>, GatewayError> {
+    let mut request = tonic::Request::new(ListEmployeesRequest {
+        page: query.page.unwrap_or(1),
+        per_page: query.per_page.unwrap_or(10),
+    });
+
+    if let Some(ref tenant_id) = auth.tenant_id {
+        request.metadata_mut().insert("x-tenant-id", tenant_id.parse().map_err(|_| GatewayError::Internal(anyhow::anyhow!("Invalid tenant_id")))?);
+    }
+
     let response = state.hris_employee_client
-        .list_employees(ListEmployeesRequest {
-            page: query.page.unwrap_or(1),
-            per_page: query.per_page.unwrap_or(10),
-        })
+        .list_employees(request)
         .await
         .map_err(|e| GatewayError::Internal(anyhow::anyhow!("gRPC error: {}", e)))?;
 

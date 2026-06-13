@@ -29,16 +29,25 @@ declare module "$app/types" {
 	type MatcherParam<M> = M extends (param : string) => param is (infer U extends string) ? U : string;
 
 	export interface AppTypes {
-		RouteId(): "/(dashboard)" | "/" | "/login";
+		RouteId(): "/(owner)" | "/(dashboard)" | "/" | "/(dashboard)/dashboard" | "/login" | "/(owner)/owner" | "/(owner)/owner/permissions" | "/(owner)/owner/roles" | "/(owner)/owner/staff" | "/(owner)/platform" | "/(owner)/platform/tenants" | "/(owner)/platform/users";
 		RouteParams(): {
 			
 		};
 		LayoutParams(): {
+			"/(owner)": Record<string, never>;
 			"/(dashboard)": Record<string, never>;
 			"/": Record<string, never>;
-			"/login": Record<string, never>
+			"/(dashboard)/dashboard": Record<string, never>;
+			"/login": Record<string, never>;
+			"/(owner)/owner": Record<string, never>;
+			"/(owner)/owner/permissions": Record<string, never>;
+			"/(owner)/owner/roles": Record<string, never>;
+			"/(owner)/owner/staff": Record<string, never>;
+			"/(owner)/platform": Record<string, never>;
+			"/(owner)/platform/tenants": Record<string, never>;
+			"/(owner)/platform/users": Record<string, never>
 		};
-		Pathname(): "/" | "/login";
+		Pathname(): "/" | "/dashboard" | "/login" | "/owner/permissions" | "/owner/roles" | "/owner/staff" | "/platform/tenants" | "/platform/users";
 		ResolvedPathname(): `${"" | `/${string}`}${ReturnType<AppTypes['Pathname']>}`;
 		Asset(): "/favicon.png" | string & {};
 	}

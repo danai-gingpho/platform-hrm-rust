@@ -1,5 +1,11 @@
 {
 	"/(dashboard)": [],
 	"/": [],
-	"/login": []
+	"/(dashboard)/dashboard": [],
+	"/login": [],
+	"/(owner)/owner/permissions": [],
+	"/(owner)/owner/roles": [],
+	"/(owner)/owner/staff": [],
+	"/(owner)/platform/tenants": [],
+	"/(owner)/platform/users": []
 }

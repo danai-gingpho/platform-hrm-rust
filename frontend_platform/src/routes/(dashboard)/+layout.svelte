@@ -1,7 +1,8 @@
 <script lang="ts">
 	import DashboardLayout from '$lib/components/shared/DashboardLayout.svelte';
+	let { children } = $props();
 </script>
 
 <DashboardLayout>
-	<slot />
+	{@render children()}
 </DashboardLayout>

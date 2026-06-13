@@ -169,24 +169,39 @@ impl EmployeeGrpcService for EmployeeGrpcHandler {
         Ok(Response::new(Empty {}))
     }
 
-    async fn list_employees(
-        &self,
-        request: Request<ListEmployeesRequest>,
-    ) -> Result<Response<ListEmployeesResponse>, Status> {
-        let req = request.into_inner();
-        let query = PaginationQuery {
-            page: Some(req.page as u64),
-            limit: Some(req.per_page as u64),
-            search: None,
-        };
+    use crate::interface::grpc::metadata::extract_tenant_id;
+    use crate::infrastructure::db::tenant::TENANT_ID;
+    use std::cell::RefCell;
+    ...
+        async fn list_employees(
+            &self,
+            request: Request<ListEmployeesRequest>,
+        ) -> Result<Response<ListEmployeesResponse>, Status> {
+            let tenant_id = extract_tenant_id(&request)?;
 
-        let response = self.service.get_all_employees(query).await
-            .map_err(|e| Status::internal(e.to_string()))?;
+            TENANT_ID.scope(RefCell::new(Some(tenant_id)), async {
+                let req = request.into_inner();
+                let query = PaginationQuery {
+                    page: Some(req.page as u64),
+                    limit: Some(req.per_page as u64),
+                    search: None,
+                };
 
-        Ok(Response::new(ListEmployeesResponse {
-            items: response.data.into_iter().map(map_employee_to_response).collect(),
-            total_items: response.total as u32,
-            total_pages: response.total_pages as u32,
+                let response = self.service.get_all_employees(query).await
+                    .map_err(|e| Status::internal(e.to_string()))?;
+
+                Ok(Response::new(ListEmployeesResponse {
+                    items: response.data.into_iter().map(map_employee_to_response).collect(),
+                    total_items: response.total as u32,
+                    total_pages: response.total_pages as u32,
+                    current_page: response.page as u32,
+                    per_page: response.limit as u32,
+                }))
+            }).await
+        }
+    }
+}
+32,
             current_page: response.page as u32,
             per_page: response.limit as u32,
         }))
